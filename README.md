@@ -1,4 +1,4 @@
-# Kernel-
+# Kernel- 2 moons
 Propose and implement in R a kernel
 
 Initial clusters are in 2D space and are expected to be projected into 3D space.
