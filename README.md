@@ -20,8 +20,8 @@ implemented.
 3) New labels are assigned based on the condition in the previous condition.
 4) Points are linearly separated in 2d.
 ![kernel1](https://user-images.githubusercontent.com/87973999/235525081-c46aea9b-1667-4a2e-bdb7-b07a0e3f9f39.png)
-5)A new coordinate is created, now considering the sum
-of squares of the coordinates ”x” and ”y”, the output will be
+
+5)A new coordinate is created, now considering the sum of squares of the coordinates ”x” and ”y”, the output will be
 a 3D paraboloid.
 ![kernel-f](https://user-images.githubusercontent.com/87973999/235525780-ac585b56-8372-4833-a5c5-ceb6d488dcf1.png)
 
