@@ -3,6 +3,8 @@ library("scatterplot3d") # load
 library("car")
 library("rgl")
 
+n= 500
+
 generateCrescentMoon<-function(n=100,d=2,sigma=1) {
   
   if (d!=2) { stop("Crescent Moon dataset is currently only available in 2D")}
@@ -16,35 +18,62 @@ generateCrescentMoon<-function(n=100,d=2,sigma=1) {
 }
 
 data=generateCrescentMoon(250,2,1)
-x1= data$X1
-x2=data$X2
+a= data$X1
+b=data$X2
 plot(data$X1,data$X2,col=data$Class,asp=1)
+my_string= "general"
+c= rep(my_string, n)  
+df=(cbind(a,b,c))
 
-kernel <- function(x1,x2) {
-  
-  #if (N<=0) {stop('invalid argument')}
-  x1=((x1 - min(x1)) / ( max(x1) - min(x1) ))
-  x2=((x2 - min(x2)) / ( max(x2) - min(x2) ))
-  #x1 <- runif(N,min=-1,max=1)
-  #x2 <- runif(N,min=-1,max=1)
-  x <- sqrt(2+2*x1)*cos(2*pi*sqrt(2+2*x1))
-  y <- sqrt(2+2*x1)*sin(2*pi*sqrt(2+2*x1))
-  z <- 2*x2
-  
-  dataset <- data.frame(x,y,z)
-  
-  return(dataset)
+#plot(a, b, pch = 19, col = "blue")
+
+count_in = 0 # count of points in inner circle
+count_out = 0 # count of points in outer area
+
+for (i in 1:length(a)) {
+  distance= as.numeric()
+  distance=abs(sqrt(a^2+b^2))
+  if (distance[i]<=6) {
+    count_in=count_in+1
+    df[i,'c']='in'
+  }
+  else if (distance[i]>=8) {
+  #else {
+    count_out=count_out+1
+    df[i,'c']='out'
+  }
 }
+distance
+count_in
+count_out
+table(df[,'c'])
+#Initial plot 2D
+plot(df[,1:2], col= as.factor(df[,'c']))
 
 
-xf=kernel(x1,x2)
-cluster=2
-y=as.vector(unlist(kmeans(xf, cluster)[1]))
-plot(xf[,1], xf[,3], col= as.factor(y))
+#dff=(as.data.frame(df))
+dff= dff[!(dff$c=="general"),]
+table(dff[,'c'])
+#Initial plot 2D, separation
+#plot(dff[,1:2], col= as.factor(dff[,'c']))
 
 
-scatterplot3d(xf,  pch = 16, color=as.factor(y), axis = TRUE )
 
-scatter3d(x=xf[,1], y=xf[,2], z= xf[,3], groups =  as.factor(y),
-          surface =FALSE, grid =FALSE,
+mapping= function(a,b){
+  x1= as.numeric(dff[,'a'])^2
+  y1= as.numeric(dff[,'b'])^2
+  z1=as.numeric(dff[,'a'])*as.numeric(dff[,'b'])
+  f_data= cbind(x1,y1,z1, as.factor(dff[,'c']))
+  return(f_data)
+}
+#PLOT, 3D
+
+f_data=mapping(a,b)
+cols=sample(1:2, nrow(f_data), replace=TRUE) 
+
+scatterplot3d(f_data,  pch = 16, color=as.factor(dff[,'c']), axis = TRUE )
+
+scatter3d(x=f_data[,1], y=f_data [,2], z= f_data[,3], groups =  as.factor(dff[,'c']),
+          surface =FALSE, grid =TRUE,
           axis.scales = FALSE, ellipsoid = TRUE)
+
