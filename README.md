@@ -11,8 +11,7 @@ the kernel implementation. The process is summarized in the
 following steps:
 
 1) A for loop is initialized and a distance that
-considers the square root of the sum squares per each coordinate
-”x” and ”y” is calculated
+considers the square root of the sum squares per each coordinate ”x” and ”y” is calculated
 ![kernel-1](https://user-images.githubusercontent.com/87973999/235524701-1c4da6a2-1ae4-4dd5-98e6-9b9cbc719599.png)
 2) A restriction that divides the
 points inside or outside the mean of the calculated distance is
